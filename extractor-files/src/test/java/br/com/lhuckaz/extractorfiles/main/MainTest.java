@@ -1,4 +1,4 @@
-package br.com.lhuckaz.extratorfiles.main;
+package br.com.lhuckaz.extractorfiles.main;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

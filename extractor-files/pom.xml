@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>br.com.lhuckaz.extratorfiles</groupId>
-	<artifactId>extrator-files</artifactId>
+	<groupId>br.com.lhuckaz.extractorfiles</groupId>
+	<artifactId>extractor-files</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0</version>
 	<name>extrator-files</name>
@@ -46,7 +46,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>br.com.lhuckaz.extratorfiles.main.Main</mainClass>
+							<mainClass>br.com.lhuckaz.extractorfiles.main.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
