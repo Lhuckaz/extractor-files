@@ -72,32 +72,16 @@ public class JExtratorFiles {
 		return indexarMenuItem;
 	}
 
-	public void setIndexarMenuItem(JMenuItem indexarMenuItem) {
-		this.indexarMenuItem = indexarMenuItem;
-	}
-
 	public JMenuItem getBuscarMenuItem() {
 		return buscarMenuItem;
-	}
-
-	public void setBuscarMenuItem(JMenuItem buscarMenuItem) {
-		this.buscarMenuItem = buscarMenuItem;
 	}
 
 	public JMenuItem getConteudoMenuItem() {
 		return conteudoMenuItem;
 	}
 
-	public void setConteudoMenuItem(JMenuItem conteudoMenuItem) {
-		this.conteudoMenuItem = conteudoMenuItem;
-	}
-
 	public JMenuItem getMetadadosMenuItem() {
 		return metadadosMenuItem;
-	}
-
-	public void setMetadadosMenuItem(JMenuItem metadadosMenuItem) {
-		this.metadadosMenuItem = metadadosMenuItem;
 	}
 
 }
