@@ -1,6 +1,6 @@
 package br.com.lhuckaz.extractorfiles.view;
 
-import java.awt.Dimension;
+import java.awt.*;
 
 import javax.swing.*;
 
