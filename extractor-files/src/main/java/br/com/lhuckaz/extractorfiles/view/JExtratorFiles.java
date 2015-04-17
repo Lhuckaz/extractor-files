@@ -1,5 +1,7 @@
 package br.com.lhuckaz.extractorfiles.view;
 
+import java.awt.Dimension;
+
 import javax.swing.*;
 
 import br.com.lhuckaz.extractorfiles.controler.SelecionarActionListener;
@@ -61,9 +63,13 @@ public class JExtratorFiles {
 
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		/*
+		 * peferivel usar o metodo setPreferredSize
+		 * frame.setSize(400, 250);
+		 */
+		frame.setPreferredSize(new Dimension(400, 250));
 		frame.pack();
 		frame.setLocationRelativeTo(null);
-		frame.setSize(400, 250);
 		frame.setVisible(true);
 
 	}
