@@ -54,7 +54,10 @@ public class SelecionarActionListener implements ActionListener {
 						System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 						in.close();
 					} else if (selectedFile.isDirectory()) {
-						File[] selectedFiles = chooser.getSelectedFiles();
+						File selectedFileEx = chooser.getSelectedFile();
+						// TODO
+						File[] selectedFiles= selectedFileEx.listFiles();
+						File[] listFiles = chooser.getSelectedFiles();
 						System.out.println(selectedFiles.length);
 						if (selectedFiles.length > 0) {
 							for (File file : selectedFiles) {
