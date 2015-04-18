@@ -26,7 +26,7 @@ public class Indexador {
 	// Diretório que irá guardar o índice;
 	private String diretorioDosIndices = Diretorios.retornaIndice();
 	// Diretório que contém os documentos que serão indexados;
-	private String diretorioParaIndexar = "C:\\Users\\lucas.fernandes\\Desktop\\Arquivos";
+	private String diretorioParaIndexar = System.getProperty("user.home") + "\\Desktop\\Arquivos";
 	// IndexWriter: cria e mantém o índice;
 	private IndexWriter writer;
 	// Biblioteca que extrai texto de diversos formatos conhecidos;
