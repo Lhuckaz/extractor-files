@@ -9,10 +9,14 @@ import java.nio.charset.Charset;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
+import org.apache.log4j.Logger;
+
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
 import br.com.lhuckaz.extractorfiles.view.JExtratorFiles;
 
 public class SelecionarActionListener implements ActionListener {
+	
+	private static Logger logger = Logger.getLogger(SelecionarActionListener.class);
 
 	private JExtratorFiles extratorFiles;
 
@@ -87,7 +91,7 @@ public class SelecionarActionListener implements ActionListener {
 			// }
 			// }
 		} catch (Exception f) {
-			f.printStackTrace();
+			logger.error(f);
 		}
 	}
 
