@@ -37,7 +37,8 @@ public class Indexador {
 			// Analyser/StandardAnalyser: fazem o pré-processamento do texto.
 			// Existem analisadores inclusive em português;
 			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_47);
-			// IndexWriterConfig: configurações para criação do índice. No projeto serão utilizados os valores padrão;
+			// IndexWriterConfig: configurações para criação do índice. No
+			// projeto serão utilizados os valores padrão;
 			IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_47, analyzer);
 			// Inicializa o IndexWriter para gravação;
 			writer = new IndexWriter(d, config);
@@ -68,16 +69,15 @@ public class Indexador {
 						|| nome.toLowerCase().endsWith(".doc") || nome.toLowerCase().endsWith(".docx")
 						|| nome.toLowerCase().endsWith(".ppt") || nome.toLowerCase().endsWith(".pptx")
 						|| nome.toLowerCase().endsWith(".xls") || nome.toLowerCase().endsWith(".txt")
-						|| nome.toLowerCase().endsWith(".rtf")
-						// TODO Usar diretorio? 
-						//|| nome.toLowerCase().endsWith("")
-						) {
+						|| nome.toLowerCase().endsWith(".rtf") || nome.toLowerCase().endsWith("")) {
 					return true;
 				}
 				return false;
 			}
 		};
-		for (File arquivo : raiz.listFiles(filtro)) {
+		// TODO usar filtro para indexar ?
+		// for (File arquivo : raiz.listFiles(filtro)) {
+		for (File arquivo : raiz.listFiles()) {
 			if (arquivo.isFile()) {
 				StringBuffer msg = new StringBuffer();
 				msg.append("Indexando o arquivo ");
@@ -103,16 +103,19 @@ public class Indexador {
 		SimpleDateFormat formatador = new SimpleDateFormat("yyyyMMdd");
 		String ultimaModificacao = formatador.format(arquivo.lastModified());
 		// Monta um Document para indexação
-		// Field.Store.YES: armazena uma cópia do texto no índice, aumentando muito o seu tamanho;
+		// Field.Store.YES: armazena uma cópia do texto no índice, aumentando
+		// muito o seu tamanho;
 		// Field.Index.ANALYZED: utilizado quando o campo é de texto livre;
-		// Field.Index.NOT_ANALYZED: utilizado quando o campo é um ID, data ou númerico.
+		// Field.Index.NOT_ANALYZED: utilizado quando o campo é um ID, data ou
+		// númerico.
 		Document documento = new Document();
-		
+
 		documento.add(new TextField("UltimaModificacao", ultimaModificacao, Field.Store.YES));
 		documento.add(new TextField("Caminho", arquivo.getAbsolutePath(), Field.Store.YES));
 		documento.add(new TextField("Texto", textoExtraido, Field.Store.YES));
 		try {
-			// Adiciona o Document no índice, mas este só estará disponível para consulta após o commit.
+			// Adiciona o Document no índice, mas este só estará disponível para
+			// consulta após o commit.
 			getWriter().addDocument(documento);
 		} catch (IOException e) {
 			logger.error(e);

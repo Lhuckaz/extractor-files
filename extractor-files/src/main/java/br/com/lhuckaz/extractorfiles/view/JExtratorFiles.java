@@ -29,56 +29,57 @@ public class JExtratorFiles {
 	private void prepareGUI() {
 		frame = new JFrame("Extractor Files");
 		menuBar = new JMenuBar();
+		SelecionarActionListener listener = new SelecionarActionListener(this);
 
-		// menu indexar
+		// Menu indexar
 		indexarMenu = new JMenu("Indexar");
 		indexarMenuItem = new JMenuItem("Selecionar...");
-		indexarMenuItem.addActionListener(new SelecionarActionListener(this));
+		indexarMenuItem.addActionListener(listener);
 		indexarMenu.add(indexarMenuItem);
 
-		// menu buscar
+		// Menu buscar
 		buscarMenu = new JMenu("Buscar");
 		buscarMenuItem = new JMenuItem("Selecionar...");
-		buscarMenuItem.addActionListener(new SelecionarActionListener(this));
+		buscarMenuItem.addActionListener(listener);
 		buscarMenu.add(buscarMenuItem);
 
-		// menu conteudo
+		// Menu conteudo
 		conteudoMenu = new JMenu("Conteúdo");
 		conteudoMenuItem = new JMenuItem("Selecionar...");
-		conteudoMenuItem.addActionListener(new SelecionarActionListener(this));
+		conteudoMenuItem.addActionListener(listener);
 		conteudoMenu.add(conteudoMenuItem);
 
-		// menu metadados
+		// Menu metadados
 		metadadosMenu = new JMenu("Metadados");
 		metadadosMenuItem = new JMenuItem("Selecionar...");
-		metadadosMenuItem.addActionListener(new SelecionarActionListener(this));
+		metadadosMenuItem.addActionListener(listener);
 		metadadosMenu.add(metadadosMenuItem);
 
-		// adionando menus ao menubar
+		// Adionando menus ao MenuBar
 		menuBar.add(indexarMenu);
 		menuBar.add(buscarMenu);
 		menuBar.add(conteudoMenu);
 		menuBar.add(metadadosMenu);
 
-		// colocar o menubar no frame
+		// Colocar o MenuBar no frame
 		frame.setJMenuBar(menuBar);
 
-		// criando textarea
+		// Criando TextArea
 		conteudoPainel = new JTextArea();
 		// Quebra de linha automatica
 		conteudoPainel.setLineWrap(true); 
-		// Nao quebra no meio da palvra
+		// Nao quebra linha no meio da palvra
 		conteudoPainel.setWrapStyleWord(true);
 		conteudoPainel.setText("Bem vindo ao Extractor Files 1.0...");
 		conteudoPainel.setAutoscrolls(true);
 		
-		// adicionando textarea no scrollpane
+		// Adicionando TextArea no ScrollPane
 		scrollPainel = new JScrollPane(conteudoPainel);
 		frame.add(scrollPainel);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		/*
-		 * peferivel usar o metodo setPreferredSize do que : frame.setSize(400, 250);
+		 * Preferivel usar o metodo setPreferredSize do que : frame.setSize(400, 250);
 		 */
 		frame.setPreferredSize(new Dimension(400, 250));
 		frame.pack();

@@ -21,9 +21,10 @@ import br.com.lhuckaz.extractorfiles.view.JExtratorFiles;
 public class SelecionarActionListener implements ActionListener {
 
 	private static Logger logger = Logger.getLogger(SelecionarActionListener.class);
-	private JExtratorFiles extratorFiles;
+	private String currentDirectory = Diretorios.retornaUserDocuments();
 	private Indexador indexador = new Indexador();
 	private Buscador buscador = new Buscador();
+	private JExtratorFiles extratorFiles;
 	private Detector detector;
 	private Tika tika;
 
@@ -34,10 +35,11 @@ public class SelecionarActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File(Diretorios.retornaUserDocuments()));
+		chooser.setCurrentDirectory(new File(currentDirectory));
 		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		// Para selecionar apenas um diretorio ou arquivo
 		chooser.setMultiSelectionEnabled(false);
+		// TODO Usar filtro no chooser ?
 		// Filtro de extencoes
 		// FileNameExtensionFilter filter = new FileNameExtensionFilter("txt",
 		// "java", "doc", "jpg", "pdf", "txt", "xls",
@@ -48,7 +50,7 @@ public class SelecionarActionListener implements ActionListener {
 
 		Object open = e.getSource();
 		try {
-			//menuitem indexar
+			// MenuItem indexar
 			if (open == extratorFiles.getIndexarMenuItem()) {
 				int code = chooser.showOpenDialog(chooser);
 				if (code == JFileChooser.APPROVE_OPTION) {
@@ -62,8 +64,8 @@ public class SelecionarActionListener implements ActionListener {
 					}
 				}
 			}
-			
-			//menuitem buscar
+
+			// MenuItem buscar
 			if (open == extratorFiles.getBuscarMenuItem()) {
 				int code = chooser.showOpenDialog(chooser);
 				if (code == JFileChooser.APPROVE_OPTION) {
@@ -71,20 +73,24 @@ public class SelecionarActionListener implements ActionListener {
 					String busca = JOptionPane.showInputDialog("Consulta");
 					if (selectedFile.isFile()) {
 						// TODO implemntar indexar antes com thread
-						//indexador.indexaArquivosDoDiretorio(selectedFile.getAbsolutePath());
-						//JOptionPane.showMessageDialog(null, "Indexado arquivo " + selectedFile.getAbsolutePath());
+						// indexador.indexaArquivosDoDiretorio(selectedFile.getAbsolutePath());
+						// JOptionPane.showMessageDialog(null,
+						// "Indexado arquivo " +
+						// selectedFile.getAbsolutePath());
 						String resultado = buscador.buscaComParser(busca);
 						extratorFiles.getConteudoPainel().setText(resultado);
 					} else if (selectedFile.isDirectory()) {
-						//indexador.indexaArquivosDoDiretorio(selectedFile.getAbsolutePath());
-						//JOptionPane.showMessageDialog(null, "Indexado arquivo " + selectedFile.getAbsolutePath());
+						// indexador.indexaArquivosDoDiretorio(selectedFile.getAbsolutePath());
+						// JOptionPane.showMessageDialog(null,
+						// "Indexado arquivo " +
+						// selectedFile.getAbsolutePath());
 						String resultado = buscador.buscaComParser(busca);
 						extratorFiles.getConteudoPainel().setText(resultado);
 					}
 				}
 			}
 
-			//menuitem conteudo
+			// MenuItem conteudo
 			if (open == extratorFiles.getConteudoMenuItem()) {
 				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				int code = chooser.showOpenDialog(chooser);
@@ -94,8 +100,8 @@ public class SelecionarActionListener implements ActionListener {
 					extratorFiles.getConteudoPainel().setText(conteudo);
 				}
 			}
-			
-			//menuitem metadados
+
+			// MenuItem metadados
 			if (open == extratorFiles.getMetadadosMenuItem()) {
 				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				int code = chooser.showOpenDialog(chooser);
@@ -105,6 +111,8 @@ public class SelecionarActionListener implements ActionListener {
 					extratorFiles.getConteudoPainel().setText(imprimirMetaDados);
 				}
 			}
+			
+			currentDirectory = chooser.getSelectedFile().getAbsolutePath();
 		} catch (Exception f) {
 			logger.error(f);
 		}
