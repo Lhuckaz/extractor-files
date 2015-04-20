@@ -3,22 +3,29 @@ package br.com.lhuckaz.extractorfiles.controler;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 
 import org.apache.log4j.Logger;
+import org.apache.tika.Tika;
+import org.apache.tika.config.TikaConfig;
+import org.apache.tika.detect.Detector;
+import org.apache.tika.io.TikaInputStream;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.mime.MediaType;
 
+import br.com.lhuckaz.extractorfiles.util.AutoDetector;
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
 import br.com.lhuckaz.extractorfiles.view.JExtratorFiles;
 
 public class SelecionarActionListener implements ActionListener {
-	
-	private static Logger logger = Logger.getLogger(SelecionarActionListener.class);
 
+	private static Logger logger = Logger.getLogger(SelecionarActionListener.class);
 	private JExtratorFiles extratorFiles;
+	private Indexador indexador = new Indexador();
+	private Buscador buscador = new Buscador();
+	private Detector detector;
+	private Tika tika;
 
 	public SelecionarActionListener(JExtratorFiles extratorFiles) {
 		this.extratorFiles = extratorFiles;
@@ -26,73 +33,88 @@ public class SelecionarActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String fileName = "";
-
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File(Diretorios.retornaUserDocuments()));
 		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		// Para selecionar apenas um diretorio ou arquivo
 		chooser.setMultiSelectionEnabled(false);
-		// Filtro de extensoes
+		// Filtro de extencoes
 		// FileNameExtensionFilter filter = new FileNameExtensionFilter("txt",
-		// "java", "doc", "jpg", "pdf", "txt", "xls", "xml", "odt", "docx",
-		// "ppt", "pptx", "rtf");
+		// "java", "doc", "jpg", "pdf", "txt", "xls",
+		// "xml", "odt", "docx", "ppt", "pptx", "rtf", "html", "ooxml", "epub",
+		// "zip", "mp3", "mp4", "png", "gif",
+		// "bmp", "3gpp");
 		// chooser.setFileFilter(filter);
 
 		Object open = e.getSource();
 		try {
+			//menuitem indexar
 			if (open == extratorFiles.getIndexarMenuItem()) {
 				int code = chooser.showOpenDialog(chooser);
 				if (code == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = chooser.getSelectedFile();
 					if (selectedFile.isFile()) {
-						fileName = selectedFile.getName();
-						FileInputStream fis = new FileInputStream(selectedFile);
-						InputStreamReader in = new InputStreamReader(fis, Charset.forName("UTF-8"));
-						char[] buffer = new char[1024];
-						int n = in.read(buffer);
-						String text = new String(buffer, 0, n);
-						// extratorFiles.text.setText(text);
-						Indexador indexador = new Indexador();
-						indexador.indexaArquivosDoDiretorio();
-						System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-						in.close();
+						indexador.indexaArquivosDoDiretorio(selectedFile.getAbsolutePath());
+						JOptionPane.showMessageDialog(null, "Indexado arquivo " + selectedFile.getAbsolutePath());
 					} else if (selectedFile.isDirectory()) {
-						File selectedFileEx = chooser.getSelectedFile();
-						// TODO
-						File[] selectedFiles= selectedFileEx.listFiles();
-						File[] listFiles = chooser.getSelectedFiles();
-						System.out.println(selectedFiles.length);
-						if (selectedFiles.length > 0) {
-							for (File file : selectedFiles) {
-								System.out.println(file.getAbsolutePath());
-							}
-						} else {
-							//selectedFiles[0].getAbsolutePath();
-							File selectedFil = chooser.getSelectedFile();
-							System.out.println(selectedFil.getAbsolutePath());
-						}
-						Indexador indexador = new Indexador();
-						indexador.indexaArquivosDoDiretorio();
+						indexador.indexaArquivosDoDiretorio(selectedFile.getAbsolutePath());
+						JOptionPane.showMessageDialog(null, "Indexado diretorio " + selectedFile.getAbsolutePath());
 					}
-
 				}
 			}
-			// else if (cmd == cmdSave) {
-			// int code = chooser.showOpenDialog(myPane);
-			// if (code == JFileChooser.APPROVE_OPTION) {
-			// File selectedFile = chooser.getSelectedFile();
-			// fileName = selectedFile.getName();
-			// FileOutputStream fos = new FileOutputStream(selectedFile);
-			// OutputStreamWriter out = new OutputStreamWriter(fos,
-			// Charset.forName("UTF-8"));
-			// out.write(myPane.getText());
-			// out.close();
-			// }
-			// }
+			
+			//menuitem buscar
+			if (open == extratorFiles.getBuscarMenuItem()) {
+				int code = chooser.showOpenDialog(chooser);
+				if (code == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = chooser.getSelectedFile();
+					String busca = JOptionPane.showInputDialog("Consulta");
+					if (selectedFile.isFile()) {
+						// TODO implemntar indexar antes com thread
+						//indexador.indexaArquivosDoDiretorio(selectedFile.getAbsolutePath());
+						//JOptionPane.showMessageDialog(null, "Indexado arquivo " + selectedFile.getAbsolutePath());
+						String resultado = buscador.buscaComParser(busca);
+						extratorFiles.getConteudoPainel().setText(resultado);
+					} else if (selectedFile.isDirectory()) {
+						//indexador.indexaArquivosDoDiretorio(selectedFile.getAbsolutePath());
+						//JOptionPane.showMessageDialog(null, "Indexado arquivo " + selectedFile.getAbsolutePath());
+						String resultado = buscador.buscaComParser(busca);
+						extratorFiles.getConteudoPainel().setText(resultado);
+					}
+				}
+			}
+
+			//menuitem conteudo
+			if (open == extratorFiles.getConteudoMenuItem()) {
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int code = chooser.showOpenDialog(chooser);
+				if (code == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = chooser.getSelectedFile();
+					String conteudo = getTika().parseToString(selectedFile);
+					extratorFiles.getConteudoPainel().setText(conteudo);
+				}
+			}
+			
+			//menuitem metadados
+			if (open == extratorFiles.getMetadadosMenuItem()) {
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int code = chooser.showOpenDialog(chooser);
+				if (code == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = chooser.getSelectedFile();
+					String imprimirMetaDados = AutoDetector.metaDados(selectedFile);
+					extratorFiles.getConteudoPainel().setText(imprimirMetaDados);
+				}
+			}
 		} catch (Exception f) {
 			logger.error(f);
 		}
+	}
+
+	public Tika getTika() {
+		if (tika == null) {
+			tika = new Tika();
+		}
+		return tika;
 	}
 
 }

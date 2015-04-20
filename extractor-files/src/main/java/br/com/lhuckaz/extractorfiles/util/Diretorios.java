@@ -7,7 +7,7 @@ public class Diretorios {
 	}
 
 	public static String retornaUserDocuments() {
-		return "\\documents\\";
+		return "\\Documents\\";
 	}
 
 	public static String retornaIndice() {

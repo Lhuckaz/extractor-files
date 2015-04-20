@@ -19,6 +19,8 @@ public class JExtratorFiles {
 	private JMenuItem conteudoMenuItem;
 	private JMenuItem metadadosMenuItem;
 	private JButton salvarButton;
+	private JTextArea conteudoPainel;
+	private JScrollPane scrollPainel;
 
 	public JExtratorFiles() {
 		prepareGUI();
@@ -61,11 +63,22 @@ public class JExtratorFiles {
 		// colocar o menubar no frame
 		frame.setJMenuBar(menuBar);
 
-		frame.setResizable(false);
+		// criando textarea
+		conteudoPainel = new JTextArea();
+		// Quebra de linha automatica
+		conteudoPainel.setLineWrap(true); 
+		// Nao quebra no meio da palvra
+		conteudoPainel.setWrapStyleWord(true);
+		conteudoPainel.setText("Bem vindo ao Extractor Files 1.0...");
+		conteudoPainel.setAutoscrolls(true);
+		
+		// adicionando textarea no scrollpane
+		scrollPainel = new JScrollPane(conteudoPainel);
+		frame.add(scrollPainel);
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		/*
-		 * peferivel usar o metodo setPreferredSize
-		 * frame.setSize(400, 250);
+		 * peferivel usar o metodo setPreferredSize do que : frame.setSize(400, 250);
 		 */
 		frame.setPreferredSize(new Dimension(400, 250));
 		frame.pack();
@@ -88,6 +101,10 @@ public class JExtratorFiles {
 
 	public JMenuItem getMetadadosMenuItem() {
 		return metadadosMenuItem;
+	}
+
+	public JTextArea getConteudoPainel() {
+		return conteudoPainel;
 	}
 
 }
