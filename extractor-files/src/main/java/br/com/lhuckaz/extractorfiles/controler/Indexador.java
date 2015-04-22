@@ -76,6 +76,40 @@ public class Indexador {
 			}
 		};
 		// TODO usar filtro para indexar ?
+		File[] listFiles = raiz.listFiles();
+		if(raiz.listFiles() == null) {
+			indexaUmArquivo(raiz);
+		} else {
+		indexaUmDiretorio(raiz);
+		}
+		
+		
+	}
+
+	private void indexaUmArquivo(File arquivo) {
+			if (arquivo.isFile()) {
+				StringBuffer msg = new StringBuffer();
+				msg.append("Indexando o arquivo ");
+				msg.append(arquivo.getAbsoluteFile());
+				msg.append(", ");
+				msg.append(arquivo.length() / 1000);
+				msg.append("kb");
+				logger.info(msg);
+				try {
+					// Extrai o conteúdo do arquivo com o Tika
+					String textoExtraido = getTika().parseToString(arquivo);
+					indexaArquivo(arquivo, textoExtraido);
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			} else {
+				indexaArquivosDoDiretorio(arquivo);
+			}
+		
+		
+	}
+
+	private void indexaUmDiretorio(File raiz) {
 		// for (File arquivo : raiz.listFiles(filtro)) {
 		for (File arquivo : raiz.listFiles()) {
 			if (arquivo.isFile()) {

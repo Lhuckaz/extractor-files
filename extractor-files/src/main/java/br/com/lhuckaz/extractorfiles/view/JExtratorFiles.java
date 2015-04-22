@@ -81,7 +81,7 @@ public class JExtratorFiles {
 		/*
 		 * Preferivel usar o metodo setPreferredSize do que : frame.setSize(400, 250);
 		 */
-		frame.setPreferredSize(new Dimension(400, 250));
+		frame.setPreferredSize(new Dimension(700, 500));
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

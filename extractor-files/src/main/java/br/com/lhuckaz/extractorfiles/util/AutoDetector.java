@@ -15,7 +15,13 @@ import org.xml.sax.SAXException;
 
 public class AutoDetector {
 
-	public static String metaDados(File file) throws IOException, SAXException, TikaException {
+	/**
+	 * @param file
+	 *            Recebe um arquivo para reotrnar os metadados
+	 * @return Retorna a String com os metadados
+	 * @throws Exception
+	 */
+	public static String metaDados(File file) throws Exception {
 		FileInputStream fileInputStream = new FileInputStream(file);
 		ContentHandler contenthandler = new BodyContentHandler();
 		Metadata metadata = new Metadata();
