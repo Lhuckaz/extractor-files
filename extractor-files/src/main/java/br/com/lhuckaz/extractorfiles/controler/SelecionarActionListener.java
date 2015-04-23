@@ -16,7 +16,7 @@ import org.apache.tika.mime.MediaType;
 
 import br.com.lhuckaz.extractorfiles.util.AutoDetector;
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
-import br.com.lhuckaz.extractorfiles.view.JExtratorFiles;
+import br.com.lhuckaz.extractorfiles.gui.JExtratorFiles;
 
 public class SelecionarActionListener implements ActionListener {
 

@@ -3,7 +3,7 @@ package br.com.lhuckaz.extractorfiles.main;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import br.com.lhuckaz.extractorfiles.view.JExtratorFiles;
+import br.com.lhuckaz.extractorfiles.gui.JExtratorFiles;
 
 /**
  * @author Lucas

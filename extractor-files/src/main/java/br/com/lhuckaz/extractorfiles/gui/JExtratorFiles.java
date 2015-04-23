@@ -1,4 +1,4 @@
-package br.com.lhuckaz.extractorfiles.view;
+package br.com.lhuckaz.extractorfiles.gui;
 
 import java.awt.*;
 
