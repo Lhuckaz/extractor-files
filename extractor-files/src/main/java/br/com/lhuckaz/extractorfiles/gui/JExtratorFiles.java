@@ -3,7 +3,9 @@ package br.com.lhuckaz.extractorfiles.gui;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
+import br.com.lhuckaz.extractorfiles.controler.BotoesActionListener;
 import br.com.lhuckaz.extractorfiles.controler.SelecionarActionListener;
 
 public class JExtratorFiles {
@@ -19,8 +21,11 @@ public class JExtratorFiles {
 	private JMenuItem conteudoMenuItem;
 	private JMenuItem metadadosMenuItem;
 	private JButton salvarButton;
+	private JButton limparButton;
 	private JTextArea conteudoPainel;
 	private JScrollPane scrollPainel;
+	private SelecionarActionListener selecionarListener;
+	private BotoesActionListener botoesListener;
 
 	public JExtratorFiles() {
 		prepareGUI();
@@ -28,31 +33,32 @@ public class JExtratorFiles {
 
 	private void prepareGUI() {
 		frame = new JFrame("Extractor Files");
+		selecionarListener = new SelecionarActionListener(this);
+		botoesListener = new BotoesActionListener(this);
 		menuBar = new JMenuBar();
-		SelecionarActionListener listener = new SelecionarActionListener(this);
 
 		// Menu indexar
 		indexarMenu = new JMenu("Indexar");
 		indexarMenuItem = new JMenuItem("Selecionar...");
-		indexarMenuItem.addActionListener(listener);
+		indexarMenuItem.addActionListener(selecionarListener);
 		indexarMenu.add(indexarMenuItem);
 
 		// Menu buscar
 		buscarMenu = new JMenu("Buscar");
 		buscarMenuItem = new JMenuItem("Selecionar...");
-		buscarMenuItem.addActionListener(listener);
+		buscarMenuItem.addActionListener(selecionarListener);
 		buscarMenu.add(buscarMenuItem);
 
 		// Menu conteudo
 		conteudoMenu = new JMenu("Conteúdo");
 		conteudoMenuItem = new JMenuItem("Selecionar...");
-		conteudoMenuItem.addActionListener(listener);
+		conteudoMenuItem.addActionListener(selecionarListener);
 		conteudoMenu.add(conteudoMenuItem);
 
 		// Menu metadados
 		metadadosMenu = new JMenu("Metadados");
 		metadadosMenuItem = new JMenuItem("Selecionar...");
-		metadadosMenuItem.addActionListener(listener);
+		metadadosMenuItem.addActionListener(selecionarListener);
 		metadadosMenu.add(metadadosMenuItem);
 
 		// Adionando menus ao MenuBar
@@ -75,7 +81,17 @@ public class JExtratorFiles {
 		
 		// Adicionando TextArea no ScrollPane
 		scrollPainel = new JScrollPane(conteudoPainel);
-		frame.add(scrollPainel);
+		frame.add(scrollPainel, BorderLayout.CENTER);
+		
+		//Adicionando botoes
+		salvarButton = new JButton("Salvar");
+		salvarButton.addActionListener(botoesListener);
+		limparButton = new JButton("Limpar");
+		limparButton.addActionListener(botoesListener);
+		JPanel painelButtons = new JPanel(new FlowLayout());
+		painelButtons.add(limparButton);
+		painelButtons.add(salvarButton);  
+		frame.add(painelButtons, BorderLayout.SOUTH);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		/*
@@ -106,6 +122,14 @@ public class JExtratorFiles {
 
 	public JTextArea getConteudoPainel() {
 		return conteudoPainel;
+	}
+	
+	public JButton getSalvarButton() {
+		return salvarButton;
+	}
+
+	public JButton getLimparButton() {
+		return limparButton;
 	}
 
 }
