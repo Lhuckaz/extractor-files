@@ -81,7 +81,7 @@ public class JExtratorFiles {
 		
 		// Adicionando TextArea no ScrollPane
 		scrollPainel = new JScrollPane(conteudoPainel);
-		frame.add(scrollPainel, BorderLayout.CENTER);
+		frame.add(scrollPainel);
 		
 		//Adicionando botoes
 		salvarButton = new JButton("Salvar");

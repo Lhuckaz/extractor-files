@@ -18,7 +18,6 @@ public class BotoesActionListener implements ActionListener {
 
 	private static Logger logger = Logger.getLogger(BotoesActionListener.class);
 	private JExtratorFiles jExtratorFiles;
-	private String currentDirectory = Diretorios.retornaUserDocuments();
 
 	public BotoesActionListener(JExtratorFiles jExtratorFiles) {
 		this.jExtratorFiles = jExtratorFiles;
@@ -27,7 +26,8 @@ public class BotoesActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File(currentDirectory));
+		chooser.setCurrentDirectory(new File(Diretorios.retornaDiretorioCorrente()));
+		chooser.setSelectedFile(new File(Diretorios.retornaArquivoParaSalvar()));
 
 		// TODO Auto-generated method stub
 		Object open = e.getSource();
@@ -41,6 +41,7 @@ public class BotoesActionListener implements ActionListener {
 					OutputStreamWriter out = new OutputStreamWriter(fos, Charset.forName("UTF-8"));
 					out.write(jExtratorFiles.getConteudoPainel().getText());
 					out.close();
+					Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 				}
 			}
 

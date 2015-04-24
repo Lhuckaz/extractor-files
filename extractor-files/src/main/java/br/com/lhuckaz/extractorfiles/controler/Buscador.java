@@ -54,6 +54,9 @@ public class Buscador {
 				logger.info("Score:" + sd.score);
 				logger.info("--------");
 			}
+			diretorio.close();
+			leitor.close();
+			analisador.close();
 		} catch (Exception e) {
 			logger.error(e);
 		}

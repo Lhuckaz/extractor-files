@@ -21,7 +21,6 @@ import br.com.lhuckaz.extractorfiles.gui.JExtratorFiles;
 public class SelecionarActionListener implements ActionListener {
 
 	private static Logger logger = Logger.getLogger(SelecionarActionListener.class);
-	private String currentDirectory = Diretorios.retornaUserDocuments();
 	private Indexador indexador = new Indexador();
 	private Buscador buscador = new Buscador();
 	private JExtratorFiles extratorFiles;
@@ -35,7 +34,7 @@ public class SelecionarActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File(currentDirectory));
+		chooser.setCurrentDirectory(new File(Diretorios.retornaDiretorioCorrente()));
 		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		// Para selecionar apenas um diretorio ou arquivo
 		chooser.setMultiSelectionEnabled(false);
@@ -63,7 +62,7 @@ public class SelecionarActionListener implements ActionListener {
 						indexador.indexaArquivosDoDiretorio(selectedFile.getAbsolutePath());
 						JOptionPane.showMessageDialog(null, "Indexado diretorio: " + selectedFile.getAbsolutePath());
 					}
-					currentDirectory = chooser.getSelectedFile().getAbsolutePath();
+					Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 				}
 			}
 
@@ -90,7 +89,7 @@ public class SelecionarActionListener implements ActionListener {
 						String resultado = buscador.buscaComParser(busca);
 						extratorFiles.getConteudoPainel().setText(resultado);
 					}
-					currentDirectory = chooser.getSelectedFile().getAbsolutePath();
+					Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 				}
 			}
 
@@ -103,7 +102,7 @@ public class SelecionarActionListener implements ActionListener {
 					String conteudo = getTika().parseToString(selectedFile);
 					logger.info("Exibindo conteúdo de " + selectedFile.getAbsolutePath());
 					extratorFiles.getConteudoPainel().setText(conteudo);
-					currentDirectory = chooser.getSelectedFile().getAbsolutePath();
+					Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 				}
 			}
 
@@ -116,9 +115,10 @@ public class SelecionarActionListener implements ActionListener {
 					String imprimirMetaDados = AutoDetector.metaDados(selectedFile);
 					logger.info("Exibindo metadados de " + selectedFile.getAbsolutePath());
 					extratorFiles.getConteudoPainel().setText(imprimirMetaDados);
-					currentDirectory = chooser.getSelectedFile().getAbsolutePath();
+					Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 				}
 			}
+			
 		} catch (Exception f) {
 			logger.error(f);
 		}

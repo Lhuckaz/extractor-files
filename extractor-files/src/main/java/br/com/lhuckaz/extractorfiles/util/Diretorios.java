@@ -1,6 +1,8 @@
 package br.com.lhuckaz.extractorfiles.util;
 
 public class Diretorios {
+	
+	private static String diretorioCorrente = retornaUserDocuments();
 
 	/**
 	 * 
@@ -24,6 +26,30 @@ public class Diretorios {
 	 */
 	public static String retornaIndice() {
 		return System.getProperty("user.home") + "\\extratorfiles-indice";
+	}
+	
+	/**
+	 * 
+	 * @return Retorna caminho do diretorio atual
+	 */
+	public static String retornaDiretorioCorrente() {
+		return diretorioCorrente;
+	}
+	
+	/**
+	 * 
+	 * @param diretorio setar o valor do diretorio
+	 */
+	public static void setDiretorioCorrente(String diretorio) {
+		diretorioCorrente = diretorio;
+	}
+	
+	/**
+	 * 
+	 * @return Retorna nome do arquivo para salvar
+	 */
+	public static String retornaArquivoParaSalvar() {
+		return "extractor-files.txt";
 	}
 
 }
