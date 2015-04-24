@@ -103,6 +103,10 @@ public class JExtratorFiles {
 		frame.setVisible(true);
 
 	}
+	
+	public JFrame getFrame() {
+		return frame;
+	}
 
 	public JMenuItem getIndexarMenuItem() {
 		return indexarMenuItem;

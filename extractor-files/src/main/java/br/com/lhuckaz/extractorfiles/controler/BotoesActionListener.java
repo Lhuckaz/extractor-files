@@ -33,7 +33,7 @@ public class BotoesActionListener implements ActionListener {
 		Object open = e.getSource();
 		try {
 			if (open == jExtratorFiles.getSalvarButton()) {
-				int code = chooser.showSaveDialog(chooser);
+				int code = chooser.showSaveDialog(jExtratorFiles.getFrame());
 				if (code == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = chooser.getSelectedFile();
 					String fileName = selectedFile.getName();
@@ -41,12 +41,14 @@ public class BotoesActionListener implements ActionListener {
 					OutputStreamWriter out = new OutputStreamWriter(fos, Charset.forName("UTF-8"));
 					out.write(jExtratorFiles.getConteudoPainel().getText());
 					out.close();
+					logger.info("Salvando arquivo em: " + chooser.getSelectedFile().getAbsolutePath());
 					Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 				}
 			}
 
 			if (open == jExtratorFiles.getLimparButton()) {
 				jExtratorFiles.getConteudoPainel().setText("");
+				logger.info("Limpando documento");
 			}
 		} catch (Exception f) {
 			logger.error(f);

@@ -52,7 +52,7 @@ public class SelecionarActionListener implements ActionListener {
 			// MenuItem indexar
 			if (open == extratorFiles.getIndexarMenuItem()) {
 				// Alterando o texto JFileChooser para o 'Selecionar'
-				int code = chooser.showDialog(chooser, "Selecionar");
+				int code = chooser.showDialog(extratorFiles.getFrame(), "Selecionar");
 				if (code == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = chooser.getSelectedFile();
 					if (selectedFile.isFile()) {
@@ -69,7 +69,7 @@ public class SelecionarActionListener implements ActionListener {
 			// MenuItem buscar
 			if (open == extratorFiles.getBuscarMenuItem()) {
 				// Alterando o texto JFileChooser para o 'Selecionar'
-				int code = chooser.showDialog(chooser, "Selecionar");
+				int code = chooser.showDialog(extratorFiles.getFrame(), "Selecionar");
 				if (code == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = chooser.getSelectedFile();
 					String busca = JOptionPane.showInputDialog("Consulta");
@@ -96,7 +96,7 @@ public class SelecionarActionListener implements ActionListener {
 			// MenuItem conteudo
 			if (open == extratorFiles.getConteudoMenuItem()) {
 				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				int code = chooser.showOpenDialog(chooser);
+				int code = chooser.showOpenDialog(extratorFiles.getFrame());
 				if (code == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = chooser.getSelectedFile();
 					String conteudo = getTika().parseToString(selectedFile);
@@ -109,7 +109,7 @@ public class SelecionarActionListener implements ActionListener {
 			// MenuItem metadados
 			if (open == extratorFiles.getMetadadosMenuItem()) {
 				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				int code = chooser.showOpenDialog(chooser);
+				int code = chooser.showOpenDialog(extratorFiles.getFrame());
 				if (code == JFileChooser.APPROVE_OPTION) {
 					File selectedFile = chooser.getSelectedFile();
 					String imprimirMetaDados = AutoDetector.metaDados(selectedFile);
