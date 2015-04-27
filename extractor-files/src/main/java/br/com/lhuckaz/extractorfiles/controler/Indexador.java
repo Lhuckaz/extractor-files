@@ -27,7 +27,7 @@ public class Indexador {
 	// Biblioteca que extrai texto de diversos formatos conhecidos;
 	private Tika tika;
 
-	public void indexaArquivosDoDiretorio(String diretorioParaIndexar) {
+	public void indexaArquivos(String caminhoParaIndexar) {
 		try {
 			File diretorio = new File(Diretorios.retornaIndice());
 			apagaIndices(diretorio);
@@ -43,7 +43,7 @@ public class Indexador {
 			// Inicializa o IndexWriter para gravação;
 			writer = new IndexWriter(d, config);
 			long inicio = System.currentTimeMillis();
-			indexaArquivosDoDiretorio(new File(diretorioParaIndexar));
+			indexaArquivos(new File(caminhoParaIndexar));
 			writer.commit();
 			writer.close();
 			long fim = System.currentTimeMillis();
@@ -62,7 +62,8 @@ public class Indexador {
 		}
 	}
 
-	private void indexaArquivosDoDiretorio(File raiz) {
+	private void indexaArquivos(File raiz) {
+		/* Filtro de indexacao
 		FilenameFilter filtro = new FilenameFilter() {
 			public boolean accept(File arquivo, String nome) {
 				if (nome.toLowerCase().endsWith(".pdf") || nome.toLowerCase().endsWith(".odt")
@@ -75,61 +76,42 @@ public class Indexador {
 				return false;
 			}
 		};
-		// TODO usar filtro para indexar ?
+		*/
 		File[] listFiles = raiz.listFiles();
-		if(raiz.listFiles() == null) {
+		if (listFiles == null) {
 			indexaUmArquivo(raiz);
 		} else {
-		indexaUmDiretorio(raiz);
+			indexaUmDiretorio(raiz);
 		}
-		
-		
+
 	}
 
 	private void indexaUmArquivo(File arquivo) {
-			if (arquivo.isFile()) {
-				StringBuffer msg = new StringBuffer();
-				msg.append("Indexando o arquivo ");
-				msg.append(arquivo.getAbsoluteFile());
-				msg.append(", ");
-				msg.append(arquivo.length() / 1000);
-				msg.append("kb");
-				logger.info(msg);
-				try {
-					// Extrai o conteúdo do arquivo com o Tika
-					String textoExtraido = getTika().parseToString(arquivo);
-					indexaArquivo(arquivo, textoExtraido);
-				} catch (Exception e) {
-					logger.error(e);
-				}
-			} else {
-				indexaArquivosDoDiretorio(arquivo);
+		if (arquivo.isFile()) {
+			StringBuffer msg = new StringBuffer();
+			msg.append("Indexando o arquivo ");
+			msg.append(arquivo.getAbsoluteFile());
+			msg.append(", ");
+			msg.append(arquivo.length() / 1000);
+			msg.append("kb");
+			logger.info(msg);
+			try {
+				// Extrai o conteúdo do arquivo com o Tika
+				String textoExtraido = getTika().parseToString(arquivo);
+				indexaArquivo(arquivo, textoExtraido);
+			} catch (Exception e) {
+				logger.error(e);
 			}
-		
-		
+		} else {
+			indexaArquivos(arquivo);
+		}
+
 	}
 
 	private void indexaUmDiretorio(File raiz) {
 		// for (File arquivo : raiz.listFiles(filtro)) {
 		for (File arquivo : raiz.listFiles()) {
-			if (arquivo.isFile()) {
-				StringBuffer msg = new StringBuffer();
-				msg.append("Indexando o arquivo ");
-				msg.append(arquivo.getAbsoluteFile());
-				msg.append(", ");
-				msg.append(arquivo.length() / 1000);
-				msg.append("kb");
-				logger.info(msg);
-				try {
-					// Extrai o conteúdo do arquivo com o Tika
-					String textoExtraido = getTika().parseToString(arquivo);
-					indexaArquivo(arquivo, textoExtraido);
-				} catch (Exception e) {
-					logger.error(e);
-				}
-			} else {
-				indexaArquivosDoDiretorio(arquivo);
-			}
+			indexaUmArquivo(arquivo);
 		}
 	}
 

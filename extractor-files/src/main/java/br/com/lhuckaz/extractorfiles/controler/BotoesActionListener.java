@@ -19,9 +19,10 @@ import br.com.lhuckaz.extractorfiles.util.Diretorios;
 
 public class BotoesActionListener implements ActionListener {
 
+	private static final int SALVAR = 0;
 	private static Logger logger = Logger.getLogger(BotoesActionListener.class);
-	JFileChooser chooser;
 	private JExtratorFiles jExtratorFiles;
+	private JFileChooser chooser;
 
 	public BotoesActionListener(JExtratorFiles jExtratorFiles) {
 		this.jExtratorFiles = jExtratorFiles;
@@ -34,39 +35,55 @@ public class BotoesActionListener implements ActionListener {
 		chooser.setSelectedFile(new File(Diretorios.retornaArquivoParaSalvar()));
 
 		Object open = e.getSource();
-		try {
-			if (open == jExtratorFiles.getSalvarButton()) {
-				int code = chooser.showSaveDialog(jExtratorFiles.getFrame());
-				if (code == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = chooser.getSelectedFile();
-					if(selectedFile.exists()) {
-						int confirmar = JOptionPane.showConfirmDialog(null, "Arquivo já existe\nDeseja sobrescrever ?", "Salvar", JOptionPane.YES_NO_OPTION);
-						if (confirmar == 0) {
-							salvarArquivo(selectedFile);
-						}
-					} else {
-						salvarArquivo(selectedFile);
-					}
-				}
-			}
-
-			if (open == jExtratorFiles.getLimparButton()) {
-				jExtratorFiles.getConteudoPainel().setText("");
-				logger.info("Limpando documento");
-			}
-		} catch (Exception f) {
-			logger.error(f);
+		// Implementacao botao salvar
+		if (open == jExtratorFiles.getSalvarButton()) {
+			abrirSalvarChooser();
+		}
+		// Implementacao botao limpar
+		if (open == jExtratorFiles.getLimparButton()) {
+			jExtratorFiles.getConteudoPainel().setText("");
+			logger.info("Limpando documento");
 		}
 
 	}
 
-	private void salvarArquivo(File selectedFile) throws IOException {
-		FileOutputStream fos = new FileOutputStream(selectedFile);
-		OutputStreamWriter out = new OutputStreamWriter(fos, Charset.forName("UTF-8"));
-		out.write(jExtratorFiles.getConteudoPainel().getText());
-		out.close();
-		logger.info("Salvando arquivo em: " + chooser.getSelectedFile().getAbsolutePath());
-		Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
-		
+	private void abrirSalvarChooser() {
+		int code = chooser.showSaveDialog(jExtratorFiles.getFrame());
+		if (code == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = chooser.getSelectedFile();
+			verficaSeExisteESalva(selectedFile);
+		}
+	}
+
+	private void verficaSeExisteESalva(File selectedFile) {
+		if (selectedFile.exists()) {
+			int confirmar = JOptionPane.showConfirmDialog(null, "Arquivo já existe\nDeseja sobrescrever ?", "Salvar",
+					JOptionPane.YES_NO_OPTION);
+			desejaSobrescrever(confirmar, selectedFile);
+
+		} else {
+			salvarArquivo(selectedFile);
+		}
+
+	}
+
+	private void desejaSobrescrever(int confirmar, File selectedFile) {
+		if (confirmar == SALVAR) {
+			salvarArquivo(selectedFile);
+		} else {
+			abrirSalvarChooser();
+		}
+
+	}
+
+	private void salvarArquivo(File selectedFile) {
+		try (FileOutputStream fos = new FileOutputStream(selectedFile);
+				OutputStreamWriter out = new OutputStreamWriter(fos, Charset.forName("UTF-8"))) {
+			out.write(jExtratorFiles.getConteudoPainel().getText());
+			logger.info("Salvando arquivo em: " + chooser.getSelectedFile().getAbsolutePath());
+			Diretorios.setDiretorioCorrente(selectedFile.getAbsolutePath());
+		} catch (Exception e) {
+			logger.error(e);
+		}
 	}
 }
