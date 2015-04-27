@@ -88,22 +88,31 @@ public class JExtratorFiles {
 		salvarButton.addActionListener(botoesListener);
 		limparButton = new JButton("Limpar");
 		limparButton.addActionListener(botoesListener);
-		JPanel painelButtons = new JPanel(new FlowLayout());
+		JPanel painelButtons = new JPanel(new GridLayout(1, 10));
+		preencheGridLayoutComEspacosVazio(painelButtons);
 		painelButtons.add(limparButton);
 		painelButtons.add(salvarButton);  
 		frame.add(painelButtons, BorderLayout.SOUTH);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		/*
-		 * Preferivel usar o metodo setPreferredSize do que : frame.setSize(400, 250);
+		 * Preferivel usar o metodo setPreferredSize do que : frame.setSize(x, y);
 		 */
-		frame.setPreferredSize(new Dimension(700, 500));
+		frame.setPreferredSize(new Dimension(750, 500));
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
 	}
 	
+	//método usado para preencher o GridLayout para os botoes ficarem a esquerda
+	private void preencheGridLayoutComEspacosVazio(JPanel painelButtons) {
+		for (int i = 0; i < 8; i++) {
+			painelButtons.add(new JLabel());
+		}
+		
+	}
+
 	public JFrame getFrame() {
 		return frame;
 	}
