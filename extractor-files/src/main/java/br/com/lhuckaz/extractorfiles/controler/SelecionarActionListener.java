@@ -11,6 +11,7 @@ import org.apache.tika.Tika;
 import br.com.lhuckaz.extractorfiles.gui.JExtratorFiles;
 import br.com.lhuckaz.extractorfiles.util.AutoDetector;
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
+import br.com.lhuckaz.extractorfiles.util.Erro;
 
 public class SelecionarActionListener implements ActionListener {
 
@@ -18,7 +19,7 @@ public class SelecionarActionListener implements ActionListener {
 	private Indexador indexador = new Indexador();
 	private Buscador buscador = new Buscador();
 	private JExtratorFiles extratorFiles;
-	JFileChooser chooser;
+	private JFileChooser chooser;
 	private Tika tika;
 
 	public SelecionarActionListener(JExtratorFiles extratorFiles) {
@@ -27,6 +28,7 @@ public class SelecionarActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		extratorFiles.prepareGUI();
 		chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File(Diretorios.retornaDiretorioCorrente()));
 		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -125,6 +127,7 @@ public class SelecionarActionListener implements ActionListener {
 				Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 			}
 		} catch (Exception e) {
+			Erro.mostraMensagem();
 			logger.error(e);
 		}
 	}
@@ -142,6 +145,7 @@ public class SelecionarActionListener implements ActionListener {
 				Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 			}
 		} catch (Exception e) {
+			Erro.mostraMensagem();
 			logger.error(e);
 		}
 	

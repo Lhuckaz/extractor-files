@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import br.com.lhuckaz.extractorfiles.gui.JExtratorFiles;
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
+import br.com.lhuckaz.extractorfiles.util.Erro;
 
 public class BotoesActionListener implements ActionListener {
 
@@ -30,6 +31,7 @@ public class BotoesActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		jExtratorFiles.prepareGUI();
 		chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File(Diretorios.retornaDiretorioCorrente()));
 		chooser.setSelectedFile(new File(Diretorios.retornaArquivoParaSalvar()));
@@ -83,6 +85,7 @@ public class BotoesActionListener implements ActionListener {
 			logger.info("Salvando arquivo em: " + chooser.getSelectedFile().getAbsolutePath());
 			Diretorios.setDiretorioCorrente(selectedFile.getAbsolutePath());
 		} catch (Exception e) {
+			Erro.mostraMensagem();
 			logger.error(e);
 		}
 	}

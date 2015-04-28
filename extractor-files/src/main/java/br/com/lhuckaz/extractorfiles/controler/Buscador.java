@@ -15,6 +15,7 @@ import org.apache.lucene.store.*;
 import org.apache.lucene.util.Version;
 
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
+import br.com.lhuckaz.extractorfiles.util.Erro;
 
 public class Buscador {
 	private static Logger logger = Logger.getLogger(Buscador.class);
@@ -58,6 +59,7 @@ public class Buscador {
 			leitor.close();
 			analisador.close();
 		} catch (Exception e) {
+			Erro.mostraMensagem();
 			logger.error(e);
 		}
 		return resultados.toString();
