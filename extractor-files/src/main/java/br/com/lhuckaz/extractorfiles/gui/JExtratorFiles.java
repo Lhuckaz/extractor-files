@@ -122,8 +122,7 @@ public class JExtratorFiles {
 		frame.setJMenuBar(menuBar);
 	}
 
-	// método usado para preencher o GridLayout para os botoes ficarem a
-	// esquerda
+	// método usado para preencher o GridLayout para os botoes ficarem a esquerda
 	private void preencheGridLayoutComEspacosVazio(JPanel painelButtons) {
 		for (int i = 0; i < 8; i++) {
 			painelButtons.add(new JLabel());
