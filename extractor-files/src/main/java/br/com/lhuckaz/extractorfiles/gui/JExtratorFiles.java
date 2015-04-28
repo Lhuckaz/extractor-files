@@ -59,6 +59,7 @@ public class JExtratorFiles {
 
 		// Criando TextArea
 		conteudoPainel = new JTextArea();
+		conteudoPainel.setFont(new Font("Verdana", Font.PLAIN, 14));
 		// Quebra de linha automatica
 		conteudoPainel.setLineWrap(true);
 		// Nao quebra linha no meio da palvra
