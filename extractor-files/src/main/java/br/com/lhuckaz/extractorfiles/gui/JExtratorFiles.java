@@ -45,8 +45,7 @@ public class JExtratorFiles {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		/*
-		 * Preferivel usar o metodo setPreferredSize do que : frame.setSize(x,
-		 * y);
+		 * Preferivel usar o metodo setPreferredSize do que : frame.setSize(x, y);
 		 */
 		frame.setPreferredSize(new Dimension(750, 500));
 		frame.pack();
