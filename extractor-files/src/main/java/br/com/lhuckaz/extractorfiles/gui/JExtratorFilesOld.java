@@ -1,10 +1,13 @@
 package br.com.lhuckaz.extractorfiles.gui;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class JExtratorFilesOld {
 
@@ -24,7 +27,7 @@ public class JExtratorFilesOld {
 		JButton button3 = new JButton("Mostrar conteúdo");
 		JButton button4 = new JButton("Mostrar metadados");
 		
-		JEditorPane jPane = new JEditorPane();
+		//JEditorPane jPane = new JEditorPane();
 
 		pGrid.add(button);
 		pGrid.add(button2);

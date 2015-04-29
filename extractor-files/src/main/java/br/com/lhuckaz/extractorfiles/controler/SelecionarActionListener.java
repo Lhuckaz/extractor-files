@@ -1,9 +1,11 @@
 package br.com.lhuckaz.extractorfiles.controler;
 
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 import org.apache.tika.Tika;

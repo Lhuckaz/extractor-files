@@ -36,4 +36,8 @@ public class Main {
 			logger.info("Aplicação já aberta em outra janela");
 		}
 	}
+	
+	static ServerSocket getInstancia() {
+		return instancia;
+	}
 }

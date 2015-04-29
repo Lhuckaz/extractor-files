@@ -1,7 +1,6 @@
 package br.com.lhuckaz.extractorfiles.controler;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
