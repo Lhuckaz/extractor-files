@@ -18,7 +18,7 @@ import org.apache.lucene.util.Version;
 import org.apache.tika.Tika;
 
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
-import br.com.lhuckaz.extractorfiles.util.Erro;
+import br.com.lhuckaz.extractorfiles.util.JOptionPanes;
 
 public class Indexador {
 	private static Logger logger = Logger.getLogger(Indexador.class);
@@ -49,7 +49,7 @@ public class Indexador {
 			long fim = System.currentTimeMillis();
 			logger.info("Tempo para indexar: " + ((fim - inicio) / 1000) + "s");
 		} catch (IOException e) {
-			Erro.mostraMensagem();
+			JOptionPanes.mensagemDeErro();
 			logger.error(e);
 		}
 	}
@@ -101,7 +101,7 @@ public class Indexador {
 				String textoExtraido = getTika().parseToString(arquivo);
 				indexaArquivo(arquivo, textoExtraido);
 			} catch (Exception e) {
-				Erro.mostraMensagem();
+				JOptionPanes.mensagemDeErro();
 				logger.error(e);
 			}
 		} else {
@@ -136,7 +136,7 @@ public class Indexador {
 			// consulta após o commit.
 			getWriter().addDocument(documento);
 		} catch (IOException e) {
-			Erro.mostraMensagem();
+			JOptionPanes.mensagemDeErro();
 			logger.error(e);
 		}
 	}

@@ -1,6 +1,7 @@
 package br.com.lhuckaz.extractorfiles.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -46,9 +47,11 @@ public class JExtratorFiles {
 
 	private void prepareBoasVindas() {
 		frame = new JFrame("Extractor Files");
+		frame.getContentPane().setBackground(Color.WHITE);
 		selecionarListener = new SelecionarActionListener(this);
 		botoesListener = new BotoesActionListener(this);
 		
+		//frame.add(new JLabel(""), BorderLayout.NORTH);
 		icone = new ImageIcon(getClass().getClassLoader().getResource("logo.jpg"));
 		telaPrincipal = new JLabel(icone);
 		frame.add(telaPrincipal);

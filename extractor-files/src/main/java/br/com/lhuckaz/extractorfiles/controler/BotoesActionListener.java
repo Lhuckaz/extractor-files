@@ -8,14 +8,14 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+
 
 import org.apache.log4j.Logger;
 
 import br.com.lhuckaz.extractorfiles.gui.JExtratorFiles;
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
 import br.com.lhuckaz.extractorfiles.util.EditorGUI;
-import br.com.lhuckaz.extractorfiles.util.Erro;
+import br.com.lhuckaz.extractorfiles.util.JOptionPanes;
 
 public class BotoesActionListener implements ActionListener {
 
@@ -60,8 +60,7 @@ public class BotoesActionListener implements ActionListener {
 
 	private void verficaSeExisteESalva(File selectedFile) {
 		if (selectedFile.exists()) {
-			int confirmar = JOptionPane.showConfirmDialog(null, "Arquivo já existe\nDeseja sobrescrever ?", "Salvar",
-					JOptionPane.YES_NO_OPTION);
+			int confirmar = JOptionPanes.sobrescreverArquivo();
 			desejaSobrescrever(confirmar, selectedFile);
 
 		} else {
@@ -86,7 +85,7 @@ public class BotoesActionListener implements ActionListener {
 			logger.info("Salvando arquivo em: " + chooser.getSelectedFile().getAbsolutePath());
 			Diretorios.setDiretorioCorrente(selectedFile.getAbsolutePath());
 		} catch (Exception e) {
-			Erro.mostraMensagem();
+			JOptionPanes.mensagemDeErro();
 			logger.error(e);
 		}
 	}

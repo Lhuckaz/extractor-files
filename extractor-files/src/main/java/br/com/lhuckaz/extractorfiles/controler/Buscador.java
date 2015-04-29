@@ -18,7 +18,7 @@ import org.apache.lucene.store.SimpleFSDirectory;
 import org.apache.lucene.util.Version;
 
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
-import br.com.lhuckaz.extractorfiles.util.Erro;
+import br.com.lhuckaz.extractorfiles.util.JOptionPanes;
 
 public class Buscador {
 	private static Logger logger = Logger.getLogger(Buscador.class);
@@ -62,7 +62,7 @@ public class Buscador {
 			leitor.close();
 			analisador.close();
 		} catch (Exception e) {
-			Erro.mostraMensagem();
+			JOptionPanes.mensagemDeErro();
 			logger.error(e);
 		}
 		return resultados.toString();

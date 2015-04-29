@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 import org.apache.tika.Tika;
@@ -14,7 +13,7 @@ import br.com.lhuckaz.extractorfiles.gui.JExtratorFiles;
 import br.com.lhuckaz.extractorfiles.util.AutoDetector;
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
 import br.com.lhuckaz.extractorfiles.util.EditorGUI;
-import br.com.lhuckaz.extractorfiles.util.Erro;
+import br.com.lhuckaz.extractorfiles.util.JOptionPanes;
 
 public class SelecionarActionListener implements ActionListener {
 
@@ -31,7 +30,7 @@ public class SelecionarActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(!EditorGUI.preparado()) {
+		if (!EditorGUI.preparado()) {
 			extratorFiles.prepareGUI();
 		}
 		chooser = new JFileChooser();
@@ -89,12 +88,13 @@ public class SelecionarActionListener implements ActionListener {
 	}
 
 	private void indexarFile(File selectedFile) {
+		String caminhoArquivo = selectedFile.getAbsolutePath();
 		if (selectedFile.isFile()) {
-			indexador.indexaArquivos(selectedFile.getAbsolutePath());
-			JOptionPane.showMessageDialog(null, "Indexado arquivo: " + selectedFile.getAbsolutePath());
+			indexador.indexaArquivos(caminhoArquivo);
+			JOptionPanes.arquivoIndexado(caminhoArquivo);
 		} else if (selectedFile.isDirectory()) {
-			indexador.indexaArquivos(selectedFile.getAbsolutePath());
-			JOptionPane.showMessageDialog(null, "Indexado diretorio: " + selectedFile.getAbsolutePath());
+			indexador.indexaArquivos(caminhoArquivo);
+			JOptionPanes.arquivoIndexado(caminhoArquivo);
 		}
 		Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 	}
@@ -104,18 +104,15 @@ public class SelecionarActionListener implements ActionListener {
 		int code = chooser.showDialog(extratorFiles.getFrame(), "Selecionar");
 		if (code == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
-			String busca = JOptionPane.showInputDialog("Consulta");
-			if (selectedFile.isFile()) {
-				// TODO Usar thread
-				indexarFile(selectedFile);
-				String resultado = buscador.buscaComParser(busca);
-				extratorFiles.getConteudoPainel().setText(resultado);
-			} else if (selectedFile.isDirectory()) {
-				indexarFile(selectedFile);
-				String resultado = buscador.buscaComParser(busca);
-				extratorFiles.getConteudoPainel().setText(resultado);
-			}
+			indexarFile(selectedFile);
+			String busca = JOptionPanes.busca();
+			if (busca != null) {
+			String resultado = buscador.buscaComParser(busca);
+			extratorFiles.getConteudoPainel().setText(resultado);
 			Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
+			} else {
+				JOptionPanes.semResultados();
+			}
 		}
 
 	}
@@ -132,7 +129,7 @@ public class SelecionarActionListener implements ActionListener {
 				Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 			}
 		} catch (Exception e) {
-			Erro.mostraMensagem();
+			JOptionPanes.mensagemDeErro();
 			logger.error(e);
 		}
 	}
@@ -150,10 +147,10 @@ public class SelecionarActionListener implements ActionListener {
 				Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 			}
 		} catch (Exception e) {
-			Erro.mostraMensagem();
+			JOptionPanes.mensagemDeErro();
 			logger.error(e);
 		}
-	
+
 	}
 
 }
