@@ -3,9 +3,7 @@ package br.com.lhuckaz.extractorfiles.controler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
@@ -16,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import br.com.lhuckaz.extractorfiles.gui.JExtratorFiles;
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
+import br.com.lhuckaz.extractorfiles.util.EditorGUI;
 import br.com.lhuckaz.extractorfiles.util.Erro;
 
 public class BotoesActionListener implements ActionListener {
@@ -31,7 +30,9 @@ public class BotoesActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		jExtratorFiles.prepareGUI();
+		if(!EditorGUI.preparado()) {
+			jExtratorFiles.prepareGUI();
+		}
 		chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File(Diretorios.retornaDiretorioCorrente()));
 		chooser.setSelectedFile(new File(Diretorios.retornaArquivoParaSalvar()));

@@ -11,6 +11,7 @@ import org.apache.tika.Tika;
 import br.com.lhuckaz.extractorfiles.gui.JExtratorFiles;
 import br.com.lhuckaz.extractorfiles.util.AutoDetector;
 import br.com.lhuckaz.extractorfiles.util.Diretorios;
+import br.com.lhuckaz.extractorfiles.util.EditorGUI;
 import br.com.lhuckaz.extractorfiles.util.Erro;
 
 public class SelecionarActionListener implements ActionListener {
@@ -28,7 +29,9 @@ public class SelecionarActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		extratorFiles.prepareGUI();
+		if(!EditorGUI.preparado()) {
+			extratorFiles.prepareGUI();
+		}
 		chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File(Diretorios.retornaDiretorioCorrente()));
 		chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
