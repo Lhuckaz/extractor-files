@@ -40,9 +40,11 @@ public class SelecionarActionListener implements ActionListener {
 		chooser.setMultiSelectionEnabled(false);
 
 		// // Filtro de extencoes
-		// FileNameExtensionFilter filter = new FileNameExtensionFilter("txt", "java", "doc", "jpg", "pdf", "txt", "xls",
-		// 		"xml", "odt", "docx", "ppt", "pptx", "rtf", "html", "ooxml", "epub", "zip", "mp3", "mp4", "png", "gif",
-		// 		"bmp", "3gpp");
+		// FileNameExtensionFilter filter = new FileNameExtensionFilter("txt",
+		// "java", "doc", "jpg", "pdf", "txt", "xls",
+		// "xml", "odt", "docx", "ppt", "pptx", "rtf", "html", "ooxml", "epub",
+		// "zip", "mp3", "mp4", "png", "gif",
+		// "bmp", "3gpp");
 		// chooser.setFileFilter(filter);
 
 		Object open = e.getSource();
@@ -54,6 +56,11 @@ public class SelecionarActionListener implements ActionListener {
 		// MenuItem buscar
 		if (open == extratorFiles.getBuscarMenuItem()) {
 			abrirBuscarChooser();
+		}
+
+		// MenuItem buscar e indexar
+		if (open == extratorFiles.getBuscarEIndexarMenuItem()) {
+			abrirBuscarEIndexarChooser();
 		}
 
 		// MenuItem conteudo
@@ -89,10 +96,25 @@ public class SelecionarActionListener implements ActionListener {
 		String caminhoArquivo = selectedFile.getAbsolutePath();
 		indexador.indexaArquivos(caminhoArquivo);
 		JOptionPanes.arquivoIndexado(caminhoArquivo);
+		extratorFiles.atualizaDiretorioIndexado();
 		Diretorios.setDiretorioCorrente(chooser.getSelectedFile().getAbsolutePath());
 	}
 
 	private void abrirBuscarChooser() {
+		if (Indexador.getDiretorioIndexado().equals("")) {
+			JOptionPanes.semArquivoIndexado();
+		} else {
+			String busca = JOptionPanes.busca();
+			if (busca != null) {
+				String resultado = buscador.buscaComParser(busca);
+				extratorFiles.getConteudoPainel().setText(resultado);
+			} else {
+				JOptionPanes.semResultados();
+			}
+		}
+	}
+
+	private void abrirBuscarEIndexarChooser() {
 		// Alterando o texto JFileChooser para o 'Selecionar'
 		int code = chooser.showDialog(extratorFiles.getFrame(), "Selecionar");
 		if (code == JFileChooser.APPROVE_OPTION) {
@@ -108,7 +130,6 @@ public class SelecionarActionListener implements ActionListener {
 				JOptionPanes.semResultados();
 			}
 		}
-
 	}
 
 	private void abrirConteudoChooser() {
@@ -143,7 +164,5 @@ public class SelecionarActionListener implements ActionListener {
 			JOptionPanes.mensagemDeErro();
 			logger.error(e);
 		}
-
 	}
-
 }

@@ -22,6 +22,8 @@ import br.com.lhuckaz.extractorfiles.util.JOptionPanes;
 
 public class Indexador {
 	private static Logger logger = Logger.getLogger(Indexador.class);
+	// Diretório indexado para mostrar na tela
+	private static String diretorioIndexado = "";
 	// IndexWriter: cria e mantém o índice;
 	private IndexWriter writer;
 	// Biblioteca que extrai texto de diversos formatos conhecidos;
@@ -47,6 +49,8 @@ public class Indexador {
 			writer.commit();
 			writer.close();
 			long fim = System.currentTimeMillis();
+			// Armazena diretório indexado para mostrar na tela
+			diretorioIndexado = caminhoParaIndexar;
 			logger.info("Tempo para indexar: " + ((fim - inicio) / 1000) + "s");
 		} catch (IOException e) {
 			JOptionPanes.mensagemDeErro();
@@ -54,7 +58,7 @@ public class Indexador {
 		}
 	}
 
-	private void apagaIndices(File diretorio) {
+	public static void apagaIndices(File diretorio) {
 		if (diretorio.exists()) {
 			File arquivos[] = diretorio.listFiles();
 			for (File arquivo : arquivos) {
@@ -139,6 +143,10 @@ public class Indexador {
 			JOptionPanes.mensagemDeErro();
 			logger.error(e);
 		}
+	}
+	
+	public static String getDiretorioIndexado() {
+		return diretorioIndexado;
 	}
 
 	public Tika getTika() {

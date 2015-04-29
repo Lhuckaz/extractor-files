@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,12 +16,15 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import br.com.lhuckaz.extractorfiles.controler.BotoesActionListener;
+import br.com.lhuckaz.extractorfiles.controler.Indexador;
 import br.com.lhuckaz.extractorfiles.controler.SelecionarActionListener;
+import br.com.lhuckaz.extractorfiles.util.Diretorios;
 
 public class JExtratorFiles {
 
@@ -29,6 +35,7 @@ public class JExtratorFiles {
 	private JMenu conteudoMenu;
 	private JMenu metadadosMenu;
 	private JMenuItem indexarMenuItem;
+	private JMenuItem buscarEIndexarMenuItem;
 	private JMenuItem buscarMenuItem;
 	private JMenuItem conteudoMenuItem;
 	private JMenuItem metadadosMenuItem;
@@ -40,6 +47,7 @@ public class JExtratorFiles {
 	private BotoesActionListener botoesListener;
 	private ImageIcon icone;
 	private JLabel telaPrincipal;
+	private JLabel diretorioIndexado;
 
 	public JExtratorFiles() {
 		prepareBoasVindas();
@@ -50,22 +58,30 @@ public class JExtratorFiles {
 		frame.getContentPane().setBackground(Color.WHITE);
 		selecionarListener = new SelecionarActionListener(this);
 		botoesListener = new BotoesActionListener(this);
+
+		diretorioIndexado = new JLabel();
+		frame.add(diretorioIndexado, BorderLayout.NORTH);
 		
-		//frame.add(new JLabel(""), BorderLayout.NORTH);
 		icone = new ImageIcon(getClass().getClassLoader().getResource("logo.jpg"));
 		telaPrincipal = new JLabel(icone);
 		frame.add(telaPrincipal);
-
 		adicionarMenuBar();
 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		adicionarEventoFinal();
+
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		/*
-		 * Preferivel usar o metodo setPreferredSize do que : frame.setSize(x, y);
+		 * Preferivel usar o metodo setPreferredSize do que : frame.setSize(x,
+		 * y);
 		 */
 		frame.setPreferredSize(new Dimension(750, 500));
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+
+	public void atualizaDiretorioIndexado() {
+		diretorioIndexado.setText("Caminho indexado: " + Indexador.getDiretorioIndexado());
 	}
 
 	public void prepareGUI() {
@@ -111,9 +127,12 @@ public class JExtratorFiles {
 
 		// Menu buscar
 		buscarMenu = new JMenu("Buscar");
-		buscarMenuItem = new JMenuItem("Selecionar...");
+		buscarMenuItem = new JMenuItem("Consulta");
+		buscarEIndexarMenuItem = new JMenuItem("Selecionar...");
 		buscarMenuItem.addActionListener(selecionarListener);
+		buscarEIndexarMenuItem.addActionListener(selecionarListener);
 		buscarMenu.add(buscarMenuItem);
+		buscarMenu.add(buscarEIndexarMenuItem);
 
 		// Menu conteudo
 		conteudoMenu = new JMenu("Conteúdo");
@@ -137,11 +156,26 @@ public class JExtratorFiles {
 		frame.setJMenuBar(menuBar);
 	}
 
-	// método usado para preencher o GridLayout para os botoes ficarem a esquerda
+	// método usado para preencher o GridLayout para os botoes ficarem a
+	// esquerda
 	private void preencheGridLayoutComEspacosVazio(JPanel painelButtons) {
 		for (int i = 0; i < 8; i++) {
 			painelButtons.add(new JLabel());
 		}
+
+	}
+
+	private void adicionarEventoFinal() {
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(frame, "Deseja sair ?", "Saindo", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					Indexador.apagaIndices(new File(Diretorios.retornaIndice()));
+					System.exit(0);
+				}
+			}
+		});
 
 	}
 
@@ -155,6 +189,10 @@ public class JExtratorFiles {
 
 	public JMenuItem getBuscarMenuItem() {
 		return buscarMenuItem;
+	}
+
+	public JMenuItem getBuscarEIndexarMenuItem() {
+		return buscarEIndexarMenuItem;
 	}
 
 	public JMenuItem getConteudoMenuItem() {

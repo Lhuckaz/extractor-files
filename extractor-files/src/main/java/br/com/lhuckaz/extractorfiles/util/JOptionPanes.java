@@ -42,13 +42,17 @@ public class JOptionPanes {
 	}
 
 	public static void arquivoIndexado(String selectedFile) {
-		JOptionPane.showMessageDialog(null, "Indexado arquivo: " + selectedFile);
+		JOptionPane.showMessageDialog(null, "Indexado caminho: " + selectedFile);
 		
 	}
 
 	public static int sobrescreverArquivo() {
 		return JOptionPane.showConfirmDialog(null, "Arquivo já existe\nDeseja sobrescrever ?", "Salvar",
 				JOptionPane.YES_NO_OPTION);
+	}
+
+	public static void semArquivoIndexado() {
+		JOptionPane.showMessageDialog(null, "Sem arquivo indexado");
 	}
 
 }

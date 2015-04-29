@@ -20,11 +20,11 @@ public class Main {
 	private static ServerSocket instancia;
 
 	public static void main(String[] args) throws Exception {
+		// Trocando o visual de acordo com o SO
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		try {
 			instancia = new ServerSocket(INSTANCIA_UNICA);
 			logger.debug("Aplicacao aberta no socket: " + INSTANCIA_UNICA);
-			// Trocando o visual de acordo com o SO
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			// Rodar em outra Thread
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
