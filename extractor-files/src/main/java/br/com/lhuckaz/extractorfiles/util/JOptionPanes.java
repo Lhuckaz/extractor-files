@@ -42,7 +42,7 @@ public class JOptionPanes {
 	}
 
 	public static void arquivoIndexado(String selectedFile) {
-		JOptionPane.showMessageDialog(null, "Indexado caminho: " + selectedFile);
+		JOptionPane.showMessageDialog(null, "Indexado caminho: " + selectedFile, "Indexado", JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 
@@ -52,7 +52,7 @@ public class JOptionPanes {
 	}
 
 	public static void semArquivoIndexado() {
-		JOptionPane.showMessageDialog(null, "Sem arquivo indexado");
+		JOptionPane.showMessageDialog(null, "Você deve indexar algum arquivo", "Sem arquivo indexado", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

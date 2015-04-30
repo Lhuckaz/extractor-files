@@ -58,6 +58,9 @@ public class JExtratorFiles {
 		frame.getContentPane().setBackground(Color.WHITE);
 		selecionarListener = new SelecionarActionListener(this);
 		botoesListener = new BotoesActionListener(this);
+		
+		ImageIcon ico = new ImageIcon(getClass().getClassLoader().getResource("ico.png"));
+		frame.setIconImage(ico.getImage());
 
 		diretorioIndexado = new JLabel();
 		frame.add(diretorioIndexado, BorderLayout.NORTH);
@@ -81,7 +84,7 @@ public class JExtratorFiles {
 	}
 
 	public void atualizaDiretorioIndexado() {
-		diretorioIndexado.setText("Caminho indexado: " + Indexador.getDiretorioIndexado());
+		diretorioIndexado.setText(" Caminho indexado: " + Indexador.getDiretorioIndexado());
 	}
 
 	public void prepareGUI() {
