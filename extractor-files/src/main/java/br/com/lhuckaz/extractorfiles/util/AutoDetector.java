@@ -20,7 +20,8 @@ public class AutoDetector {
 	 */
 	public static String metaDados(File file) throws Exception {
 		FileInputStream fileInputStream = new FileInputStream(file);
-		ContentHandler contenthandler = new BodyContentHandler();
+		// Alterando tamanho maximo suportado do arquivo
+		ContentHandler contenthandler = new BodyContentHandler(10*1024*1024);
 		Metadata metadata = new Metadata();
 		Parser parser = new AutoDetectParser();
 		parser.parse(fileInputStream, contenthandler, metadata, new ParseContext());
@@ -30,7 +31,7 @@ public class AutoDetector {
 		for (String nome : metadata.names()) {
 			msg.append(nome + " : " + metadata.get(nome) + "\n");
 		}
-
+		
 		return msg.toString();
 
 	}

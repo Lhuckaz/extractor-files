@@ -152,6 +152,8 @@ public class Indexador {
 	public Tika getTika() {
 		if (tika == null) {
 			tika = new Tika();
+			// Alterando tamanho maximo suportado do arquivo
+			tika.setMaxStringLength(10*1024*1024);
 		}
 		return tika;
 	}
