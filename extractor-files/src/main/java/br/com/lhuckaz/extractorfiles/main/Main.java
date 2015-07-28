@@ -23,6 +23,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		// Trocando o visual de acordo com o SO
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		// Tradutor
 		Tradutor.traduz();
 		try {
 			instancia = new ServerSocket(INSTANCIA_UNICA);
