@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 
 import br.com.lhuckaz.extractorfiles.gui.JExtratorFiles;
+import br.com.lhuckaz.extractorfiles.util.Tradutor;
 
 /**
  * @author Lucas
@@ -22,6 +23,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		// Trocando o visual de acordo com o SO
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		Tradutor.traduz();
 		try {
 			instancia = new ServerSocket(INSTANCIA_UNICA);
 			logger.debug("Aplicacao aberta no socket: " + INSTANCIA_UNICA);
